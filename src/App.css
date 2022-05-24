@@ -1,38 +1,102 @@
-.App {
-  text-align: center;
+/* *{
+    border: 1px solid black;
+    box-sizing: border-box;
+} */
+
+body{
+  margin: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header{
+  background-color: green;
+
+  position: sticky;
+  z-index: 999;
+  top: 0;
+  min-height: 15vh;
+
+  padding-block: 1vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+main{
+  height: 90vh;
+  padding-block: 2vh;
+  gap: 2vh;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+input, select, button{
+  height: 5vh;
+  box-sizing: border-box;
+}
+
+.logo{
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+.logo > .image{
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.logo > .title{
+  height: 5vh;
+
+  text-align: center;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.logo img{
+  height: 10vh;
+}
+
+.characterSelector{
+  display: flex;
+}
+
+.characterSelector > *{
+  height: 40vh;
+}
+
+.arrow{
+  width: 50px;
+}
+
+.arrow:hover, .arrow:active{
+  filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(25deg) brightness(150%) contrast(119%);    filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(25deg) brightness(150%) contrast(119%);
+}
+
+.inverted{
+  transform: rotate(180deg);
+}
+
+.characterInput > *{
+  width: 50%;
+  margin: auto;
+}
+
+.wrapper{
+  /* padding: 2%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex{
+  display: flex;
+  gap: 1vh;
+}
+
+.flex-column{
+  flex-direction: column;
+}
+
+.stat-bar{
+  height: 20px;
+}
+
+.hover-green:hover{
+  background-color: greenyellow;
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  font-weight: bolder;
 }
