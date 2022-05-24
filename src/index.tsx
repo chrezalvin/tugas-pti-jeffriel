@@ -5,8 +5,6 @@ import "./bootstrap.css";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import trophy from './assets/trophy.svg';
-
 ReactDOM.render(
   <React.StrictMode>
 

@@ -2,7 +2,7 @@ import {Component} from 'react';
 import { type ChangeEventHandler, MouseEventHandler } from 'react';
 
 import CharacterSelector from './components/CharacterSelector';
-
+import Stat from './components/Stat';
 
 
 interface AppProps{
@@ -12,6 +12,7 @@ interface AppProps{
 interface AppState{
   characterName: string;
   characterProdi: string;
+  characterIndex: number;
   gameStart: boolean;
 }
 
@@ -19,7 +20,12 @@ class App extends Component<AppProps, AppState> {
   constructor(props: AppProps){
     super(props);
 
-    this.state = {characterName: "", characterProdi: "", gameStart: false};
+    this.state = {
+      characterName: "", 
+      characterProdi: "", 
+      gameStart: false, 
+      characterIndex: 0
+    };
   }
 
   handleNameChange:ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -63,7 +69,7 @@ class App extends Component<AppProps, AppState> {
                     className="form-control"
                     onChange={this.handleProdiChange}
                   >
-                    <option value="">Input Prodi</option>
+                    <option value="">Input Program Studi</option>
                     <option value="input prodi">Input Prodi</option>
                     <option value="input prodi">Input Prodi</option>
                     <option value="input prodi">Input Prodi</option>
@@ -82,6 +88,67 @@ class App extends Component<AppProps, AppState> {
         </form>
       </main>
     )
+    else
+      return (
+      <main>
+        <div className="d-flex" id="stats" style={{height: "5vh"}}>
+          <Stat 
+            iconUrl={`${process.env.PUBLIC_URL}/assets/icons/trophy.svg`}
+            key="0"
+          />
+          <Stat 
+            iconUrl={`${process.env.PUBLIC_URL}/assets/icons/trophy.svg`}
+            key="1"
+          />
+          <Stat 
+            iconUrl={`${process.env.PUBLIC_URL}/assets/icons/trophy.svg`}
+            key="2"
+          />
+          <Stat 
+            iconUrl={`${process.env.PUBLIC_URL}/assets/icons/trophy.svg`}
+            key="3"
+          />
+        </div>
+
+        <div className="d-flex p-2" id="gameScreen" style={{height: "70vh"}}>
+            <div className="d-flex flex-column tab w-25">
+                <div className="d-flex flex-column gap-1 p-1" id="gotoList">
+                    <div className="d-flex justify-content-center">
+                        <h3>GO TO</h3>
+                    </div>
+                    <button className="btn btn-warning fw-bold">Kampus</button>
+                    <button className="btn btn-warning fw-bold">Kafe</button>
+                    <button className="btn btn-warning fw-bold">Supermarket</button>
+                </div>
+                <div className="bg-dark w-100 h-100" id="news"></div> 
+            </div>
+            <div className="d-flex flex-column w-50">
+                <div className="bg-info d-flex flex-column justify-content-center">
+                    <div className="d-flex justify-content-center">
+                        <h3>Selasa - 9:43</h3>
+                    </div>
+                    <div className="d-flex justify-content-center">
+                        <h5>Good Morning {`${this.state.characterName}`}</h5>
+                    </div>
+                </div>
+                <div className="bg-success w-100 h-100">
+                    <img className="p-4 w-100 h-100" src={`${process.env.PUBLIC_URL}/assets/icons/trophy.svg`} style={{maxHeight: "50vh"}}/>
+                </div>
+            </div>
+            <div className="d-flex flex-column w-25 bg-danger">
+                <div className="bg-primary p-1 d-flex flex-column" id="atList">
+                    <div className="btn btn-warning fw-bold">At Supermarket</div>
+                </div>
+                <div className="bg-danger d-flex flex-column p-1 gap-2">
+                    <button className="btn btn-info fw-bold">Something</button>
+                    <button className="btn btn-info fw-bold">Something</button>
+                    <button className="btn btn-info fw-bold">Something</button>
+                    <button className="btn btn-info fw-bold">Something</button>
+                </div>
+            </div>
+        </div>
+    </main>
+      )
   }
 }
 
