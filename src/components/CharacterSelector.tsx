@@ -48,7 +48,6 @@ class CharacterSelector extends Component<CharacterSelectorProps, CharacterSelec
             this.setState({characterSelectIndex: this.state.characterSelectIndex - 1});
     }
 
-
     render(): ReactNode {
         return (
             <div className="d-flex justify-content-center" id="characterSelector">
