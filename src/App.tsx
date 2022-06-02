@@ -10,14 +10,32 @@ import Experimental from "./paths/Experimental";
 
 import {
   characters as DATA_characters,
-  creator as DATA_creator
+  creator as DATA_creator,
+  Places as DATA_places,
 } from './data'
 
 const iconsPath = `${process.env.PUBLIC_URL}/assets/icons`;
 const charactersPath = `${process.env.PUBLIC_URL}/assets/characters`;
 
+interface Activity{
+  name: string;
+  hoursUsed: number;
+  minutesUsed: number;
+  point: {
+      sleep: number;
+      education: number;
+      health: number;
+      happiness: number;
+  }
+}
+
 interface AppProps{
 
+}
+
+interface StatPoint{
+  name: "sleep" | "education" | "happiness" | "health",
+  amount: number,
 }
 
 interface AppState{
@@ -25,12 +43,8 @@ interface AppState{
   characterProdi: string;
   characterIndex: number;
 
-  stat: {
-    sleep: number,
-    education: number,
-    health: number,
-    happiness: number
-  }
+  stat: StatPoint[];
+  trackActivity: (Activity | string)[];
 }
 
 class App extends Component<AppProps, AppState> {
@@ -42,12 +56,25 @@ class App extends Component<AppProps, AppState> {
       characterProdi: "", 
       characterIndex: 0,
 
-      stat: {
-        sleep: 5,
-        education: 0,
-        happiness: 5,
-        health: 5
-      }
+      stat: [
+        {
+            name: "sleep",
+            amount: 5,
+        },
+        {
+            name: "education",
+            amount: 0,
+        },
+        {
+            name: "health",
+            amount: 5,
+        },
+        {
+            name: "happiness",
+            amount: 5,
+        }
+    ],
+    trackActivity: []
     };
   }
 
@@ -65,7 +92,7 @@ class App extends Component<AppProps, AppState> {
     const apiKey = "53b17730633049a1a0e32384e25ca065";
     const option = {
       country: "id", // id = indonesia, en = english
-      newsSection: "top-headlines", // top-headlines/everything
+      newsSection: "everything", // top-headlines/everything
       searchQuery: "", // searched word option
     }
 
@@ -78,7 +105,7 @@ class App extends Component<AppProps, AppState> {
     const request = new Request(newsUrl);
 
     const response = await fetch(request);
-    const newsJson = await response.json();
+    return await response.json();
   }
 
   gameStart = (name: string, prodi: string, characterIndex: number) => {
@@ -91,6 +118,13 @@ class App extends Component<AppProps, AppState> {
         }
       );
     }
+  }
+
+  gameOver = (finalStat: StatPoint[], trackedActivity:(Activity | string)[] ) => {
+    this.setState({
+      stat: finalStat,
+      trackActivity: trackedActivity
+    })
   }
 
   render(){
@@ -106,21 +140,27 @@ class App extends Component<AppProps, AppState> {
           <Route path='/game' key="game"
             element={
               <Game 
-                characterIndex={this.state.characterIndex} 
+                characterUrl={`${charactersPath}/${DATA_characters[this.state.characterIndex]}`} 
                 characterName={this.state.characterName}
+                DATA_Place={DATA_places}
+                defaultStat={this.state.stat}
+                gameOver={this.gameOver}
           />}
           />
-          <Route path='/evaluation' key="evaluation"
+          {/* <Route path='/evaluation' key="evaluation"
             element={
               <Evaluation />
-            }/>
+            }/> */}
           <Route path='/about-us' key="about-us"
             element={
               <AboutUs 
                 data_creator={DATA_creator}
               />
             }/>
-          <Route path='experimental' element={<Experimental />} />
+            {
+              process.env.NODE_ENV === 'development' ? 
+              <Route path='/experimental' key="experimental"/> : ""
+            }
         </Routes>
       </BrowserRouter>
     )

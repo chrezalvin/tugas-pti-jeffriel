@@ -2,20 +2,10 @@ import { Component } from "react";
 import { type ReactNode, MouseEventHandler, ChangeEventHandler } from "react";
 import { Link } from "react-router-dom";
 import {Modal, Button, } from "react-bootstrap";
+import {characters, prodi as DATA_Prodi} from "../data";
 
 const iconsPath = `${process.env.PUBLIC_URL}/assets/icons`;
 const charactersPath = `${process.env.PUBLIC_URL}/assets/characters`;
-
-const characters = [
-    "male.svg",
-    "female.svg",
-    "trophy.svg"
-];
-
-const DATA_Prodi = [
-    "Humaniora",
-    "IT",
-];
 
 interface StartProps{
     startGame: (

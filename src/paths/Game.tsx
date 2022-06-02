@@ -1,24 +1,26 @@
 import { Component } from "react";
 import { type ReactNode, MouseEventHandler} from "react";
 
-import {Places as DATA_Place, characters as DATA_characters} from "../data";
-import {Button} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import {Button, Modal} from "react-bootstrap";
 
 import Stat from '../components/Stat'
+import News from '../components/News'
+import TimeDisplay from '../components/TimeDisplay'
 
 const iconsPath = `${process.env.PUBLIC_URL}/assets/icons`;
-const charactersPath = `${process.env.PUBLIC_URL}/assets/characters`;
+const dayList: ("Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu")[]
+            = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 
 interface Place {
     name: string;
-    iconUrl?: string;
     activities: Activity[];
 }
 
 interface Activity{
     name: string;
     hoursUsed: number;
-    minutesUsed?: number;
+    minutesUsed: number;
     point: {
         sleep: number;
         education: number;
@@ -29,7 +31,10 @@ interface Activity{
 
 interface GameProps{
     characterName: string;
-    characterIndex: number;
+    characterUrl: string;
+    DATA_Place: Place[];
+    defaultStat: StatPoint[];
+    gameOver: (finalStat: StatPoint[], trackedActivity: (Activity | string)[]) => void;
 }
 
 interface StatPoint{
@@ -38,7 +43,7 @@ interface StatPoint{
 }
 
 interface Time{
-    day: "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu",
+    day: number,
     hour: number,
     minute: number,
 }
@@ -50,6 +55,8 @@ interface GameState{
     activityBeingConfirmed: Activity;
 
     stats: StatPoint[];
+    trackActivity: (Activity | string)[];
+    gameOver: boolean;
 }
 
 class Game extends Component<GameProps, GameState> {
@@ -57,16 +64,17 @@ class Game extends Component<GameProps, GameState> {
         super(props);
 
         this.state = {
-            selectedPlace: DATA_Place[0],
+            selectedPlace: this.props.DATA_Place[0],
             time: {
-                day: "Senin",
-                hour: 12,
+                day: 0,
+                hour: 0,
                 minute: 0
             },
             confirming: false,
             activityBeingConfirmed: {
                 name: "",
                 hoursUsed: 0,
+                minutesUsed: 0,
                 point: {
                     sleep: 0,
                     education: 0,
@@ -74,24 +82,18 @@ class Game extends Component<GameProps, GameState> {
                     happiness: 0
                 }
             },
-            stats: [
-                {
-                    name: "sleep",
-                    amount: 5,
-                },
-                {
-                    name: "education",
-                    amount: 0,
-                },
-                {
-                    name: "health",
-                    amount: 5,
-                },
-                {
-                    name: "happiness",
-                    amount: 5,
-                }
-            ]
+            stats: this.props.defaultStat,
+            trackActivity: [],
+            gameOver: false
+        }
+    }
+
+    componentDidUpdate(prevProps: GameProps, prevState: GameState){
+        // check for state change for hours and minute
+        if(this.state.time.day > dayList.length - 1 && !this.state.gameOver){
+            // trigger game over
+            this.props.gameOver(this.state.stats, this.state.trackActivity);
+            this.setState({gameOver: true});
         }
     }
 
@@ -101,6 +103,7 @@ class Game extends Component<GameProps, GameState> {
             activityBeingConfirmed: {
                 name: "",
                 hoursUsed: 0,
+                minutesUsed: 0,
                 point: {
                     sleep: 0,
                     education: 0,
@@ -112,10 +115,10 @@ class Game extends Component<GameProps, GameState> {
     }
 
     handleChangePlaceOnClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-        let placeToGo = DATA_Place.find(place => {
+        let placeToGo = this.props.DATA_Place.find(place => {
             return place.name === e.currentTarget.value;
         }) 
-        ?? DATA_Place[0]; // just in case it's undefined
+        ?? this.props.DATA_Place[0]; // just in case it's undefined
     
         this.setState({selectedPlace: placeToGo});
     }
@@ -128,24 +131,18 @@ class Game extends Component<GameProps, GameState> {
                 name: e.currentTarget.value,
             }
         });
-
-        // e.currentTarget.innerText = 
-    }
-
-    confirmActivity = (activity: Activity) => {
-        return;
-    }
-
-    doActivity = (statChange: {
-        sleep: number,
-        education: number,
-        health: number,
-        happiness: number
-    }) => {
-        return;
     }
 
     handleActivityOnConfirm = () => {
+        let minute = this.state.time.minute + 
+                    this.state.activityBeingConfirmed.minutesUsed;
+        let hour =  this.state.time.hour + 
+                    this.state.activityBeingConfirmed.hoursUsed + 
+                    Math.floor(minute / 60);
+        let day =   this.state.time.day + 
+                    Math.floor((this.state.time.hour + 
+                    this.state.activityBeingConfirmed.hoursUsed) / 24);
+
         this.setState({
             stats: this.state.stats.map(stat => {
                 const calculateStat = stat.amount + this.state.activityBeingConfirmed.point[stat.name]
@@ -153,11 +150,17 @@ class Game extends Component<GameProps, GameState> {
                     ...stat, 
                     amount: Math.min(calculateStat, 10)
                 };
-            })
+            }),
+            time: {
+                hour: (hour) % 24,
+                minute: (minute) % 60,
+                day: day,
+            }
         });
 
         this.resetConfirmation();
     }
+
 
     handleActivityOnCancel = () => {
         this.resetConfirmation();
@@ -172,7 +175,7 @@ class Game extends Component<GameProps, GameState> {
     }
 
     render(): ReactNode {
-        const Places = DATA_Place.map(place => {
+        const Places = this.props.DATA_Place.map(place => {
             return (
             <button
                 className="btn btn-warning fw-bold" 
@@ -242,21 +245,29 @@ class Game extends Component<GameProps, GameState> {
             />)
         });
 
-        const Time: ReactNode = (() => {
-            const greeting = this.state.time.hour < 12 ? "Selamat Pagi" : "Selamat Siang";
-            return (
-            <div className="d-flex flex-column justify-content-center">
-                <div className="d-flex justify-content-center">
-                    <h3>{this.state.time.day} - {this.state.time.hour}:{this.state.time.minute}</h3>
-                </div>
-                <div className="d-flex justify-content-center">
-                    <h5>{greeting} {`${this.props.characterName}`}</h5>
-                </div>
-            </div>)
-        })()
+        const gameOverModal = (
+            <Modal show={!this.state.gameOver}>
+                <Modal.Header className="d-flex justify-content-center">
+                    <Modal.Title>
+                        <h2>Game Over</h2>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h5>You have reached the end of the game</h5>
+                </Modal.Body>
+                <Modal.Footer className="d-flex justify-content-center">
+                    <Link to="/evaluation">
+                        <Button variant="primary">
+                            go to Evaluation
+                        </Button>
+                    </Link>
+                </Modal.Footer>
+            </Modal>
+                    );
 
         return (
             <main>
+                {gameOverModal}
             <div className="d-flex" id="stats" style={{height: "5vh"}}>
                 {Stats}
             </div>
@@ -268,21 +279,25 @@ class Game extends Component<GameProps, GameState> {
                         </div>
                         {Places}
                     </div>
-                    <div className="bg-dark w-100 h-100" id="news"></div> 
+                    <div className="w-100 h-100" id="news">
+                        <News />
+                    </div> 
                 </div>
                 <div className="d-flex flex-column w-50">
                     <div className="d-flex flex-column justify-content-center">
-                        <div className="d-flex justify-content-center">
-                            <h3>Selasa - 9:43</h3>
-                        </div>
-                        <div className="d-flex justify-content-center">
-                            <h5>Good Morning {`${this.props.characterName}`}</h5>
-                        </div>
+                        <TimeDisplay
+                            characterName={this.props.characterName}
+                            day={this.state.time.day}
+                            hour={this.state.time.hour}
+                            minute={this.state.time.minute}
+                            hourToAdd={this.state.activityBeingConfirmed.hoursUsed}
+                            minuteToAdd={this.state.activityBeingConfirmed.minutesUsed}
+                        />
                     </div>
                     <div className="w-100 h-100">
                         <img 
                             className="p-4 w-100 h-100" 
-                            src={`${charactersPath}/${DATA_characters[this.props.characterIndex]}`} 
+                            src={`${this.props.characterUrl}`} 
                             style={{maxHeight: "50vh"}}
                             alt={`${this.props.characterName} avatar`}
                         />

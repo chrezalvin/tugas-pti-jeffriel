@@ -3,13 +3,13 @@ import { type ReactNode } from "react";
 
 import { Link } from "react-router-dom";
 
-import defaultAvatar from "../assets/default-avatar.svg";
+const creatorsPath = `${process.env.PUBLIC_URL}/assets/creators`;
 
 interface Creator{
-    nama: string,
-    tugas: string[],
-    deskripsi: string,
-    imgUrl?: string
+    nama: string;
+    nim: string;
+    tugas: string[];
+    imgUrl?: string;
 }
 
 interface AboutUsProp{
@@ -31,10 +31,10 @@ class AboutUs extends Component<AboutUsProp, AboutUsState> {
             <div className="row gap-4 mx-4" style={{height: "50vh"}}>
                 <div className="col-4 d-flex justify-content-center" id="picture-0">
                     <img 
-                        src={creator.imgUrl ?? defaultAvatar} 
+                        src={`${creatorsPath}/${creator.imgUrl ?? "default.svg"}`} 
                         className="align-self-center" 
                         style={{height: "40vh"}}
-                        alt={creator.nama}
+                        alt={creator.imgUrl ? creator.nama : `image for ${creator.nama} is not available`}
                         />
                 </div>
                 <div className="col-7 overflow-auto">
@@ -44,12 +44,12 @@ class AboutUs extends Component<AboutUsProp, AboutUsState> {
                             <td>{creator.nama}</td>
                         </tr>
                         <tr>
-                            <td>Tugas:</td>
-                            <td>{creator.tugas.join(", ")}</td>
+                            <td>nim:</td>
+                            <td>{creator.nim}</td>
                         </tr>
                         <tr>
-                            <td>Deskripsi:</td>
-                            <td>{creator.deskripsi}</td>
+                            <td>Tugas:</td>
+                            <td>{creator.tugas.join(", ")}</td>
                         </tr>
                     </table>
                 </div>

@@ -1,6 +1,6 @@
 import {Component, MouseEventHandler} from "react";
 import {Button, Modal} from "react-bootstrap";
-
+import News from "../components/News"; 
 // props
 interface ExperimentalProps{
 }
@@ -36,12 +36,7 @@ class Experimental extends Component<ExperimentalProps, ExperimentalState> {
         return (
         
         <main>
-            <Button
-                onClick={this.handleButtonOnClick}
-                variant="success"
-            >
-                Click me!
-            </Button>
+            <News  />
         </main>
         );
     }

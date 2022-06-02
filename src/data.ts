@@ -1,31 +1,29 @@
 export const creator = [
     {
-        nama: "",
-        tugas: ["", "", ""],
-        deskripsi: "",
-        imgUrl: ""
+        nama: "Jeffriel Putra Gunawan",
+        nim: "00000052616",
+        tugas: ["UI Mockup Desainer", "Side Programmer"],
+        imgUrl: "jeffriel-putra-gunawan.jpg",
     },
     {
-        nama: "",
-        tugas: ["", "", ""],
-        deskripsi: "",
+        nama: "Hillario Zidan",
+        nim: "00000050745",
+        tugas: ["Main Programmer"],
+        imgUrl: "hillario-zidan.jpeg",
     },
     {
-        nama: "",
-        tugas: ["", "", ""],
-        deskripsi: "",
-    },
-    {
-        nama: "",
-        tugas: ["", "", ""],
-        deskripsi: "",
-    },
+        nama: "Alvieri Gamaliel cmw",
+        nim: "0000006730",
+        tugas: ["Logo", "data game balancing"],
+    }
 ]
 
 export const characters = [
     "male.svg",
     "female.svg",
-    "trophy.svg"
+    "trophy.svg",
+    "person.svg",
+    "person-2.svg"
 ];
 
 export const prodi = [
@@ -39,7 +37,8 @@ export const Places = [
         "activities": [
             {
                 "name": "Sleep",
-                "hoursUsed": 0,
+                "hoursUsed": 23,
+                "minutesUsed": 0,
                 "point": {
                     "sleep": 3,
                     "education": -2,
@@ -49,7 +48,8 @@ export const Places = [
             },
             {
                 "name": "Eat",
-                "hoursUsed": 0,
+                "hoursUsed": 1,
+                "minutesUsed": 30,
                 "point": {
                     "sleep": -1,
                     "education": 0,
@@ -59,7 +59,8 @@ export const Places = [
             },
             {
                 "name": "Play",
-                "hoursUsed": 0,
+                "hoursUsed": 3,
+                "minutesUsed": 30,
                 "point": {
                     "sleep": -2,
                     "education": -1,
@@ -69,7 +70,8 @@ export const Places = [
             },
             {
                 "name": "Study",
-                "hoursUsed": 0,
+                "hoursUsed": 2,
+                "minutesUsed": 0,
                 "point": {
                     "sleep": -2,
                     "education": 3,
@@ -84,7 +86,8 @@ export const Places = [
         "activities": [
             {
                 "name": "Study",
-                "hoursUsed": 0,
+                "hoursUsed": 3,
+                "minutesUsed": 0,
                 "point": {
                     "sleep": -2,
                     "education": 5,
@@ -94,7 +97,8 @@ export const Places = [
             },
             {
                 "name": "Excercise",
-                "hoursUsed": 0,
+                "hoursUsed": 1,
+                "minutesUsed": 0,
                 "point": {
                     "sleep": -1,
                     "education": 1,
@@ -109,7 +113,8 @@ export const Places = [
         "activities": [
             {
                 "name": "Study and Eat",
-                "hoursUsed": 0,
+                "hoursUsed": 2,
+                "minutesUsed": 0,
                 "point": {
                     "sleep": -2,
                     "education": 3,
@@ -119,7 +124,8 @@ export const Places = [
             },
             {
                 "name": "Eat",
-                "hoursUsed": 0,
+                "hoursUsed": 1,
+                "minutesUsed": 30,
                 "point": {
                     "sleep": -2,
                     "education": 0,
@@ -129,7 +135,8 @@ export const Places = [
             },
             {
                 "name": "Hangout",
-                "hoursUsed": 0,
+                "hoursUsed": 4,
+                "minutesUsed": 0,
                 "point": {
                     "sleep": -2,
                     "education": -1,
@@ -144,7 +151,8 @@ export const Places = [
         "activities": [
             {
                 "name": "Buy Groceries",
-                "hoursUsed": 0,
+                "hoursUsed": 2,
+                "minutesUsed": 30,
                 "point": {
                     "sleep": -1,
                     "education": -1,
@@ -154,7 +162,8 @@ export const Places = [
             },
             {
                 "name": "Buy Snacks",
-                "hoursUsed": 0,
+                "hoursUsed": 1,
+                "minutesUsed": 0,
                 "point": {
                     "sleep": -1,
                     "education": -1,
@@ -164,7 +173,8 @@ export const Places = [
             },
             {
                 "name": "Chilling",
-                "hoursUsed": 0,
+                "hoursUsed": 1,
+                "minutesUsed": 0,
                 "point": {
                     "sleep": 1,
                     "education": -2,
