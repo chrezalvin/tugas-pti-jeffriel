@@ -116,8 +116,8 @@ class App extends Component<AppProps, AppState> {
 
   restartGame = () => {
     this.setState({
-      characterName: "", 
-      characterProdi: "", 
+      characterName: "",
+      characterProdi: "",
       characterIndex: 0,
 
       stat: [
