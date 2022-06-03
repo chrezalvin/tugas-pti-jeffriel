@@ -119,8 +119,12 @@ class Game extends Component<GameProps, GameState> {
             return place.name === e.currentTarget.value;
         }) 
         ?? this.props.DATA_Place[0]; // just in case it's undefined
-    
-        this.setState({selectedPlace: placeToGo});
+        
+        this.setState(
+            {
+                selectedPlace: placeToGo,
+                trackActivity: [...this.state.trackActivity, placeToGo.name]
+            });
     }
     
     handleActivityOnClick: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -155,7 +159,9 @@ class Game extends Component<GameProps, GameState> {
                 hour: (hour) % 24,
                 minute: (minute) % 60,
                 day: day,
-            }
+            },
+            trackActivity: [...this.state.trackActivity, 
+                            this.state.activityBeingConfirmed],
         });
 
         this.resetConfirmation();
@@ -176,14 +182,40 @@ class Game extends Component<GameProps, GameState> {
 
     render(): ReactNode {
         const Places = this.props.DATA_Place.map(place => {
+            // requirement for places
+            let closed = false;
+            switch(place.name){
+                case "Kampus": {
+                    // disabled at 18pm - 6am
+                    closed = this.state.time.hour >= 18 || 
+                            this.state.time.hour < 6 ||
+                            dayList[this.state.time.day] === "Minggu";
+                    break;
+                }
+                case "Cafe": {
+                    // disabled at 12pm - 8am
+                    closed = (this.state.time.hour >= 12 || this.state.time.hour < 8);
+                    break;
+                }
+                case "Supermarket": {
+                    // disabled at 23pm - 4am
+                    closed = (this.state.time.hour >= 23 || this.state.time.hour < 4);
+                    break;
+                }
+
+                default: break;
+            }
+
             return (
             <button
                 className="btn btn-warning fw-bold" 
                 value={place.name}
-                disabled={this.state.confirming && this.state.activityBeingConfirmed.name !== place.name}
+                disabled=   {(this.state.confirming && this.state.activityBeingConfirmed.name !== place.name) 
+                            || closed 
+                            || this.state.selectedPlace.name === place.name}
                 onClick={this.handleChangePlaceOnClick}
                 >
-                {place.name}
+                {`${place.name} ${closed ? "(closed)" : ""}`}
             </button>
             )
         });
@@ -216,8 +248,6 @@ class Game extends Component<GameProps, GameState> {
                                     this.state.activityBeingConfirmed.name !== activity.name) ||
                                     this.state.stats.find(stat => {return (stat.amount + activity.point[stat.name]) <= 0}) !== undefined;
 
-                                    console.log('hello');
-
                 return (<Button 
                 variant="warning"
                 value={activity.name}
@@ -246,7 +276,7 @@ class Game extends Component<GameProps, GameState> {
         });
 
         const gameOverModal = (
-            <Modal show={!this.state.gameOver}>
+            <Modal show={this.state.gameOver}>
                 <Modal.Header className="d-flex justify-content-center">
                     <Modal.Title>
                         <h2>Game Over</h2>

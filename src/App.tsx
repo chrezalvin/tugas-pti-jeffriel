@@ -12,6 +12,7 @@ import {
   characters as DATA_characters,
   creator as DATA_creator,
   Places as DATA_places,
+  achievements as DATA_achievements,
 } from './data'
 
 const iconsPath = `${process.env.PUBLIC_URL}/assets/icons`;
@@ -63,7 +64,7 @@ class App extends Component<AppProps, AppState> {
         },
         {
             name: "education",
-            amount: 0,
+            amount: 3,
         },
         {
             name: "health",
@@ -84,28 +85,6 @@ class App extends Component<AppProps, AppState> {
         const img = new Image();
         img.src = `${charactersPath}/${character}`;
     })
-
-    // this.getNews();
-  }
-
-  getNews = async () => {
-    const apiKey = "53b17730633049a1a0e32384e25ca065";
-    const option = {
-      country: "id", // id = indonesia, en = english
-      newsSection: "everything", // top-headlines/everything
-      searchQuery: "", // searched word option
-    }
-
-    const newsUrl = `https://newsapi.org/v2/${option.newsSection}` +
-                    `?country=${option.country}&` +
-                    `apiKey=${apiKey}&` +
-                    `q=${encodeURI(option.searchQuery)}`;
-
-    // create new fetch interface
-    const request = new Request(newsUrl);
-
-    const response = await fetch(request);
-    return await response.json();
   }
 
   gameStart = (name: string, prodi: string, characterIndex: number) => {
@@ -121,10 +100,46 @@ class App extends Component<AppProps, AppState> {
   }
 
   gameOver = (finalStat: StatPoint[], trackedActivity:(Activity | string)[] ) => {
-    this.setState({
-      stat: finalStat,
-      trackActivity: trackedActivity
+    finalStat.forEach(stat => {
+      this.setState(prevState => {
+        return {
+          stat: [
+            ...prevState.stat,
+            stat
+          ]
+        }
+      })
     })
+
+    this.setState({trackActivity: [...trackedActivity]});
+  }
+
+  restartGame = () => {
+    this.setState({
+      characterName: "", 
+      characterProdi: "", 
+      characterIndex: 0,
+
+      stat: [
+        {
+            name: "sleep",
+            amount: 5,
+        },
+        {
+            name: "education",
+            amount: 3,
+        },
+        {
+            name: "health",
+            amount: 5,
+        },
+        {
+            name: "happiness",
+            amount: 5,
+        }
+    ],
+    trackActivity: []
+    });
   }
 
   render(){
@@ -147,10 +162,19 @@ class App extends Component<AppProps, AppState> {
                 gameOver={this.gameOver}
           />}
           />
-          {/* <Route path='/evaluation' key="evaluation"
+          <Route path='/evaluation' key="evaluation"
             element={
-              <Evaluation />
-            }/> */}
+              <Evaluation 
+                characterName={this.state.characterName}
+                characterUrl={`${charactersPath}/${DATA_characters[this.state.characterIndex]}`}
+                characterProdi={this.state.characterProdi}
+                
+                stat={this.state.stat}
+                trackActivity={this.state.trackActivity}
+                DATA_Achievements={DATA_achievements}
+                restartGame={this.restartGame}
+              />
+            }/>
           <Route path='/about-us' key="about-us"
             element={
               <AboutUs 

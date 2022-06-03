@@ -38,7 +38,6 @@ class News extends Component<NewsProp, NewsState>{
     async componentDidMount(){
         const article = await this.getNews();
         const timeInterval = 10 * 1000;
-        console.log(article);
 
         // change news every x second
         setInterval(() => {

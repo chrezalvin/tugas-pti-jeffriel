@@ -103,8 +103,9 @@ class Start extends Component<StartProps, StartState> {
                     <Modal.Title>Tutorial Permainan</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4>Text in a modal</h4>
-                    <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+                    <p>Kamu adalah seorang mahasiswa UMN yang akan menjalani 7 hari masa-masa mahasiswa</p>
+                    <p>Tugasmu adalah untuk menjaga kestabilan stat kamu selama 7 hari dengan melakukan berbagai macam aktivitas</p>
+                    <p>Aktivitas yang kamu lakukan akan mengubah stat kamu</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="success" onClick={this.closeTutorialModal}>

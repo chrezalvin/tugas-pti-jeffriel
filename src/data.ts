@@ -27,8 +27,11 @@ export const characters = [
 ];
 
 export const prodi = [
-    "Humaniora",
-    "IT"
+    "Informatika",
+    "Manajemen",
+    "Akuntansi",
+    "Ilmu Komunikasi",
+    "Desain Komunikasi Visual (DKV)"
 ];
 
 export const Places = [
@@ -37,13 +40,13 @@ export const Places = [
         "activities": [
             {
                 "name": "Sleep",
-                "hoursUsed": 23,
+                "hoursUsed": 8,
                 "minutesUsed": 0,
                 "point": {
-                    "sleep": 3,
+                    "sleep": 4,
                     "education": -2,
-                    "health": 3,
-                    "happiness": 3
+                    "health": 1,
+                    "happiness": 0
                 }
             },
             {
@@ -54,7 +57,7 @@ export const Places = [
                     "sleep": -1,
                     "education": 0,
                     "health": 3,
-                    "happiness": 3
+                    "happiness": 1
                 }
             },
             {
@@ -73,7 +76,7 @@ export const Places = [
                 "hoursUsed": 2,
                 "minutesUsed": 0,
                 "point": {
-                    "sleep": -2,
+                    "sleep": -3,
                     "education": 3,
                     "health": 0,
                     "happiness": -2
@@ -86,7 +89,7 @@ export const Places = [
         "activities": [
             {
                 "name": "Study",
-                "hoursUsed": 3,
+                "hoursUsed": 4,
                 "minutesUsed": 0,
                 "point": {
                     "sleep": -2,
@@ -98,9 +101,9 @@ export const Places = [
             {
                 "name": "Excercise",
                 "hoursUsed": 1,
-                "minutesUsed": 0,
+                "minutesUsed": 30,
                 "point": {
-                    "sleep": -1,
+                    "sleep": -3,
                     "education": 1,
                     "health": 4,
                     "happiness": 1
@@ -109,17 +112,17 @@ export const Places = [
         ]
     },
     {
-        "name": "Kafe",
+        "name": "Cafe",
         "activities": [
             {
                 "name": "Study and Eat",
-                "hoursUsed": 2,
+                "hoursUsed": 3,
                 "minutesUsed": 0,
                 "point": {
                     "sleep": -2,
-                    "education": 3,
-                    "health": 0,
-                    "happiness": 1
+                    "education": 2,
+                    "health": 4,
+                    "happiness": 0
                 }
             },
             {
@@ -139,8 +142,8 @@ export const Places = [
                 "minutesUsed": 0,
                 "point": {
                     "sleep": -2,
-                    "education": -1,
-                    "health": -1,
+                    "education": -2,
+                    "health": 0,
                     "happiness": 4
                 }
             }
@@ -183,5 +186,28 @@ export const Places = [
                 }
             }
         ]
+    }
+]
+
+export const achievements = [
+    {
+        "name": "Eat, Sleep, Repeat",
+        "description": "You have eaten, slept, and repeated at least 3 times a day for a week."
+    },
+    {
+        "name": "Home Stuck",
+        "description": "You never leave home"
+    },
+    {
+        "name": "Dreamer",
+        "description": "You have slept at least 20 times"
+    },
+    {
+        "name": "Otodidak",
+        "description": "You studied in home more than studying at campus"
+    },
+    {
+        "name": "Hangouters",
+        "description": "You have hangout at least 3 times a day for a week."
     }
 ]

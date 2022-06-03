@@ -1,18 +1,9 @@
-# Getting Started with Create React App
+# Guide Mendownload Aplikasi
+di project directory cmd, ketik `npm i` atau `npm install` untuk menginstall semua node_modules
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+setelah itu ketik `npm start`
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+pada mode `development`, aplikasi dapat dibuka di [http://localhost:3000](http://localhost:3000)
 
 ### `npm test`
 
