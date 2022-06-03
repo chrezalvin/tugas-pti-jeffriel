@@ -176,7 +176,6 @@ class Game extends Component<GameProps, GameState> {
         this.setState({
             confirming: true,
             activityBeingConfirmed: activity,
-
         });
     }
 
@@ -186,9 +185,9 @@ class Game extends Component<GameProps, GameState> {
             let closed = false;
             switch(place.name){
                 case "Kampus": {
-                    // disabled at 18pm - 6am
-                    closed = this.state.time.hour >= 18 || 
-                            this.state.time.hour < 6 ||
+                    // disabled at 5pm - 8am
+                    closed = this.state.time.hour >= 17 || 
+                            this.state.time.hour < 8 ||
                             dayList[this.state.time.day] === "Minggu";
                     break;
                 }

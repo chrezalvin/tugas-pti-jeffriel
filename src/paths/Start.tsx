@@ -105,7 +105,8 @@ class Start extends Component<StartProps, StartState> {
                 <Modal.Body>
                     <p>Kamu adalah seorang mahasiswa UMN yang akan menjalani 7 hari masa-masa mahasiswa</p>
                     <p>Tugasmu adalah untuk menjaga kestabilan stat kamu selama 7 hari dengan melakukan berbagai macam aktivitas</p>
-                    <p>Aktivitas yang kamu lakukan akan mengubah stat kamu</p>
+                    <p>Aktivitas yang kamu lakukan akan mengubah stat kamu dan seiring permainan berlangsung waktu akan terus bertambah</p>
+                    <p>Pada akhir permainan, akan dilakukan evaluasi berdasar aktivitas yang telah kamu lakukan</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="success" onClick={this.closeTutorialModal}>

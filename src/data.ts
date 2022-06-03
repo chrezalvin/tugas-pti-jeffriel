@@ -15,6 +15,7 @@ export const creator = [
         nama: "Alvieri Gamaliel cmw",
         nim: "0000006730",
         tugas: ["Logo", "data game balancing"],
+        imgUrl: "alvieri-gamaliel-cmw.jpg"
     }
 ]
 
@@ -197,6 +198,14 @@ export const achievements = [
     {
         "name": "Home Stuck",
         "description": "You never leave home"
+    },
+    {
+        "name": "Proactive",
+        "description": "Do alot of activities except sleeping >30"
+    },
+    {
+        "name": "place Goers",
+        "description": "You have visited many places (atleast 20)"
     },
     {
         "name": "Dreamer",

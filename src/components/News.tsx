@@ -78,22 +78,24 @@ class News extends Component<NewsProp, NewsState>{
 
     render(){
         return (
-            <div className="w-100 h-100 overflow-scroll" style={{height: "30vh"}}>
+            <div className="w-100 h-100 overflow-hidden" id="news" style={{height: "25vh"}}>
+            <div className="div justify-content-center d-flex">
+                <h4>NEWS</h4>
+            </div>
+            <div className="h-100 d-flex flex-column">
                 <div className="d-flex justify-content-center">
-                    <h3>NEWS</h3>
+                    <span className="fw-bold text-center" style={{fontSize: "60%"}}>
+                        {this.state.title}
+                    </span>
                 </div>
-                <div className="">
-                    <strong>{this.state.title}</strong>
+                <div className="d-flex justify-content-center">
+                    <img src={this.state.urlToImage} className="w-50 mx-1" alt=""/>
                 </div>
-                <div className="d-flex">
-                    <div className="w-50">
-                        <img src={this.state.urlToImage} alt="news" className="w-100 h-100"/>
-                    </div>
-                    <div className="w-50">
-                        <p>{this.state.description}</p>
-                    </div>
+                <div className="" style={{fontSize: "70%"}}>
+                    {this.state.description}
                 </div>
             </div>
+            </div> 
         )
     }
 }

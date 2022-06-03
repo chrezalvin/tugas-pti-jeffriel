@@ -39,7 +39,7 @@ interface EvaluationProps {
 
 interface EvaluationState {
     achievements: Achievement[];
-
+    description: string[];
     activityCount: number;
     switchPlaceCount: number;
 }
@@ -51,13 +51,14 @@ extends Component<EvaluationProps, EvaluationState> {
 
         this.state = {
             achievements: [],
-            activityCount: 0,
-            switchPlaceCount: 0,
+            description: [],
+            activityCount: this.props.trackActivity.filter(activity => typeof activity !== "string").length,
+            switchPlaceCount: this.props.trackActivity.filter(activity => typeof activity === "string").length,
         }
     }
 
     componentDidMount(){
-        this.createAchievements();
+        this.addAchievement();
     }
 
     findAchievement = (name: string): Achievement|undefined => {
@@ -71,33 +72,34 @@ extends Component<EvaluationProps, EvaluationState> {
             const achievement = this.findAchievement("Home Stuck");
             if(achievement)
                 this.setState({
-                    achievements: [...this.state.achievements, achievement]
+                    achievements: [...this.state.achievements, achievement],
+                    description: [...this.state.description, "Kamu tidak pernah keluar rumah, mungkin kamu harus pergi sesekali"]
                 })
         }
-        // else if(this.props.trackActivity.filter(activity => {typeof activity !== "string" && activity.name === "Sleep"}).length >= 20){
-        //     const achievement = this.findAchievement("Dreamer");
-        //     if(achievement)
-        //         this.setState({
-        //             achievements: [...this.state.achievements, achievement]
-        //         })
-        // }
-    }
-
-    createAchievements = () => {
-        console.log(this.props.trackActivity);
-
-        this.props.trackActivity.forEach(activity => {
-            if(typeof activity != "string"){
+        if(this.props.trackActivity.filter(activity => typeof activity === "string").length >= 20){
+            const achievement = this.findAchievement("Place Goers");
+            if(achievement)
                 this.setState({
-                    activityCount: this.state.activityCount + 1,
+                    achievements: [...this.state.achievements, achievement],
+                    description: [...this.state.description, "Kamu bepergian sangat sering!"]
                 })
-            }
-            else{
+        }
+        if(this.props.trackActivity.filter(activity => typeof activity !== "string" && activity.name === "Sleep").length >= 20){
+            const achievement = this.findAchievement("Dreamer");
+            if(achievement)
                 this.setState({
-                    switchPlaceCount: this.state.switchPlaceCount + 1
+                    achievements: [...this.state.achievements, achievement],
+                    description: [...this.state.description, "Kamu sering sekali tidur, kamu harus bekerja lebih giat!"]
                 })
-            }
-        })
+        if(this.props.trackActivity.filter(activity => typeof activity !== 'string' && activity.name !== "Sleep").length >= 30){
+            const achievement = this.findAchievement("Proactive");
+            if(achievement)
+                this.setState({
+                    achievements: [...this.state.achievements, achievement],
+                    description: [...this.state.description, "Kamu sering melakukan aktivitas dan tidak malas, teruskan!"]
+                })
+        }
+        }
     }
 
     render(): ReactNode{
@@ -109,6 +111,14 @@ extends Component<EvaluationProps, EvaluationState> {
                     </div>
                     <div className="">{achievement.description}</div>
                 </div>
+            )
+        })
+
+        const deskripsi = this.state.description.map(desc => {
+            return (
+                <li className="list-group-item">
+                    {desc}
+                </li>
             )
         })
 
@@ -137,7 +147,11 @@ extends Component<EvaluationProps, EvaluationState> {
                     <div className="d-flex justify-content-center my-2">
                         <h3>Evaluation:</h3>
                     </div>
-                    <div></div>
+                    <div>
+                        <ul className="list-group">
+                            {deskripsi}
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div className="d-flex justify-content-center">
